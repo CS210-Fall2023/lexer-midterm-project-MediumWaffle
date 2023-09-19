@@ -7,10 +7,27 @@ int main(int argc, char* argv[]){
     const char *operators[] = {".", "<", ">", "(", ")", "+", "-", "*", "/", "|", "&", ";", ",", ":", "[", "]", "=", ":=", "..", "<<", ">>", "<>", "<=", ">=", "**", "!=", "=>"};
     
     //assuming passing the file to the lexer will only be passed 1 file at a time through 
-    //the arguments of the command line, this is my code.
+    //the arguments of the command line, this is the code.
 
-    //open file (read only)
-    //create a file with <name>.lexer (write only)
+    
+    char *filename = calloc((strlen(argv[1])+8), sizeof(char)); //set the file to the 1st argument (the +8 is for ".lexer\0")
+    strcpy(filename, (argv[1]+6));
+    printf("%s\n", filename);
+    char *fileExtension = ".lexer";
+    FILE *inFile = fopen(filename, "r"); //opens the file for readin, file must exist
+    strcat(filename, fileExtension); //set filename to <name>.lexer
+    printf("%s\n", filename);
+    FILE *outFile = fopen(filename, "w"); //create a file with <name>.lexer (write only)
+
+    if(inFile == NULL){
+        printf("Error, Input file not found\n");
+        exit(0);
+    }
+    if(outFile == NULL){
+        printf("Error, Output file not made\n");
+        exit(0);
+    }
+    
 
     //check if the beginning of any files isSpace();
     
@@ -29,6 +46,8 @@ int main(int argc, char* argv[]){
         //write the string from start til isSpace()
         //write UNK category
     
-    
+    fclose(inFile);
+    fclose(outFile);
+    free(filename); //deallocate memory
     return 0;
 }
