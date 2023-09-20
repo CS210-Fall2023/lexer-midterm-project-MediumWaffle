@@ -1,12 +1,15 @@
 #include "lexer.h"
 
 //how to handle classifications
+
+    int checkComment(FILE *inFile, FILE *outFile){}
     //comment
         //starts with /*
         //read until ending character / is found
         //write the comment as you go
         //when finished write (comment) then newline
 
+    int checkString(FILE *inFile, FILE *outFile){}
     //string
         //starts with "
         //read until ending character " is found
@@ -14,14 +17,7 @@
         //write the string as you go
         //when finished write (string) then newline
 
-    //keyword
-        //read characters until space
-            //build a word as you go
-        //when space is reached, word is finished building
-        //append null terminating character onto word
-        //compare word to other words in the keywords list
-            //if a match is made then write the word, (keyword), and newline
-
+    int checkChar(FILE *inFile, FILE *outFile){}
     //character literal
         //starts with a '
         //read the next single character
@@ -29,17 +25,7 @@
         //write out the character surrounded by the single quotes
         //then write out (character literal) then newline
 
-    //operator
-        //read until space is found
-            //build a word as you go
-        //when space is reached the word is finished building
-        //append a null terminating character onto the word
-        //check size of word
-            //if 1 then check for operators[0-16]
-            //if 2 then check for operators[17-26]
-        //compare 'word' to 'words' in operators list
-            //if a match is made, print out word, (operator), and newline
-
+    int checkNum(FILE *inFile, FILE *outFile){}
     //numeric literal
         //read in character
         //if that character is between the range of 48-57 then it's a number
@@ -52,6 +38,19 @@
             //if # then read more numbers til isSpace() is found
             //afterwards print number, (numeric literal), newline
 
+    int checkOperators(FILE *inFile, FILE *outFile){}
+    //operator
+        //read until space is found
+            //build a word as you go
+        //when space is reached the word is finished building
+        //append a null terminating character onto the word
+        //check size of word
+            //if 1 then check for operators[0-16]
+            //if 2 then check for operators[17-26]
+        //compare 'word' to 'words' in operators list
+            //if a match is made, print out word, (operator), and newline
+
+    int checkIdentifiers(FILE *inFile, FILE *outFile){}
     //identifier
         //check if character is a letter (65-90, 97-122)
         //characters after that can be: 
@@ -61,11 +60,19 @@
                 //if digit or underscore is found, then word is an identifier
         //if the word is an identifier then write word, (identifier), newline
 
+    int checkKeywords(FILE *inFile, FILE *outFile){}
+    //keyword
+        //read characters until space
+            //build a word as you go
+        //when space is reached, word is finished building
+        //append null terminating character onto word
+        //compare word to other words in the keywords list
+            //if a match is made then write the word, (keyword), and newline
+
+    void setUnknown(FILE *inFile, FILE *outFile){}
     //unkown
         //if no classification was given to the chosen word, then put it here
         //print out thr word, (UNK), newline
-
-
 
 /*
 33-47 -   operators
