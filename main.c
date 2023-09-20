@@ -11,10 +11,10 @@ int main(int argc, char* argv[]){
 
     
     char *filename = calloc((strlen(argv[1])+8), sizeof(char)); //set the file to the 1st argument (the +8 is for ".lexer\0")
-    strcpy(filename, (argv[1]+6));
+    strcpy(filename, argv[1]);
     printf("%s\n", filename);
     char *fileExtension = ".lexer";
-    FILE *inFile = fopen(filename, "r"); //opens the file for readin, file must exist
+    FILE *inFile = fopen(argv[1], "r"); //opens the file for readin, file must exist
     strcat(filename, fileExtension); //set filename to <name>.lexer
     printf("%s\n", filename);
     FILE *outFile = fopen(filename, "w"); //create a file with <name>.lexer (write only)
