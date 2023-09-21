@@ -2,14 +2,14 @@
 
 //how to handle classifications
 
-    int checkComment(FILE *inFile, FILE *outFile){}
+    bool checkComment(FILE *inFile, FILE *outFile){}
     //comment
         //starts with /*
         //read until ending character / is found
         //write the comment as you go
         //when finished write (comment) then newline
 
-    int checkString(FILE *inFile, FILE *outFile){}
+    bool checkString(FILE *inFile, FILE *outFile){}
     //string
         //starts with "
         //read until ending character " is found
@@ -17,7 +17,7 @@
         //write the string as you go
         //when finished write (string) then newline
 
-    int checkChar(FILE *inFile, FILE *outFile){}
+    bool checkChar(FILE *inFile, FILE *outFile){}
     //character literal
         //starts with a '
         //read the next single character
@@ -25,7 +25,7 @@
         //write out the character surrounded by the single quotes
         //then write out (character literal) then newline
 
-    int checkNum(FILE *inFile, FILE *outFile){}
+    bool checkNum(FILE *inFile, FILE *outFile){}
     //numeric literal
         //read in character
         //if that character is between the range of 48-57 then it's a number
@@ -38,7 +38,7 @@
             //if # then read more numbers til isSpace() is found
             //afterwards print number, (numeric literal), newline
 
-    int checkOperators(FILE *inFile, FILE *outFile){}
+    bool checkOperators(FILE *inFile, FILE *outFile){}
     //operator
         //read until space is found
             //build a word as you go
@@ -50,7 +50,7 @@
         //compare 'word' to 'words' in operators list
             //if a match is made, print out word, (operator), and newline
 
-    int checkIdentifiers(FILE *inFile, FILE *outFile){}
+    bool checkIdentifiers(FILE *inFile, FILE *outFile){}
     //identifier
         //check if character is a letter (65-90, 97-122)
         //characters after that can be: 
@@ -60,7 +60,7 @@
                 //if digit or underscore is found, then word is an identifier
         //if the word is an identifier then write word, (identifier), newline
 
-    int checkKeywords(FILE *inFile, FILE *outFile){}
+    bool checkKeywords(FILE *inFile, FILE *outFile){}
     //keyword
         //read characters until space
             //build a word as you go

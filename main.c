@@ -26,26 +26,27 @@ int main(int argc, char* argv[]){
         exit(0);
     }
     
-
     //check if the beginning of any files isSpace();
-    
-    //read a character, and check it between operators
-        //if no match for an operator, then reset reading position and read again. 
-        //if the size of the operator is more than 1, read more than 1 character
-            //if match is made, jump into function made for handling that operator
-                //write result to <name>.lexer
-    
-    //if no match for operators, read characters
-        //if match is made, then jump into function to handle it
-            //classify it as 1 of the 8 categories
-                //write result to <name>.lexer
-
-    //if no match is made for operators or keywords, then label UNKOWN
-        //write the string from start til isSpace()
-        //write UNK category
     
     fclose(inFile);
     fclose(outFile);
     free(filename); //deallocate memory
     return 0;
 }
+
+
+
+//read a character, and check it between operators
+    //if no match for an operator, then reset reading position and read again. 
+    //if the size of the operator is more than 1, read more than 1 character
+        //if match is made, jump into function made for handling that operator
+            //write result to <name>.lexer
+
+//if no match for operators, read characters
+    //if match is made, then jump into function to handle it
+        //classify it as 1 of the 8 categories
+            //write result to <name>.lexer
+
+//if no match is made for operators or keywords, then label UNKOWN
+    //write the string from start til isSpace()
+    //write UNK category
