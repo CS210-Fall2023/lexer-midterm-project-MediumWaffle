@@ -3,8 +3,8 @@
 int main(int argc, char* argv[]){
 
     //list of all the words and symbols I am checking for
-    const char *keywords[] = {"accessor", "and", "array", "begin", "bool", "case", "character", "constant", "else", "elsif", "end", "exit", "function","if", "in", "integer", "interface", "is", "loop", "module", "mutator", "natural", "null", "of", "or", "other", "out","positive", "procedure", "range", "return", "struct", "subtype", "then", "type", "when", "while"};
-    const char *operators[] = {".", "<", ">", "(", ")", "+", "-", "*", "/", "|", "&", ";", ",", ":", "[", "]", "=", ":=", "..", "<<", ">>", "<>", "<=", ">=", "**", "!=", "=>"};
+    //const char *keywords[] = {"accessor", "and", "array", "begin", "bool", "case", "character", "constant", "else", "elsif", "end", "exit", "function","if", "in", "integer", "interface", "is", "loop", "module", "mutator", "natural", "null", "of", "or", "other", "out","positive", "procedure", "range", "return", "struct", "subtype", "then", "type", "when", "while"};
+    //onst char *operators[] = {".", "<", ">", "(", ")", "+", "-", "*", "/", "|", "&", ";", ",", ":", "[", "]", "=", ":=", "..", "<<", ">>", "<>", "<=", ">=", "**", "!=", "=>"};
     
     //assuming passing the file to the lexer will only be passed 1 file at a time through 
     //the arguments of the command line, this is the code.
@@ -29,13 +29,14 @@ int main(int argc, char* argv[]){
     //check if the beginning of any files isSpace();
     char c;
     while((c = fgetc(inFile)) != EOF){
-        if(isComment(inFile, outFile, &c)){}
-        else if(isString(inFile, outFile)){}
-        else if(isChar(inFile, outFile)){}
-        else if(isNum(inFile, outFile)){}
-        else if(isOperators(inFile, outFile)){}
-        else if(isIdentifiers(inFile, outFile)){} //this function will call isKeywords()
-        else {setUnknown(inFile, outFile);}
+        if(isspace(c)){} //if any whitespace is detected, then loop for next char instead
+        else if(isComment(inFile, outFile, &c)){}
+        else if(isString(inFile, outFile, &c)){}
+        else if(isChar(inFile, outFile, &c)){}
+        else if(isNum(inFile, outFile, &c)){}
+        else if(isOperators(inFile, outFile, &c)){}
+        else if(isIdentifiers(inFile, outFile, &c)){} //this function will call isKeywords()
+        else {setUnknown(inFile, outFile, &c);}
     }
     
     fclose(inFile);
