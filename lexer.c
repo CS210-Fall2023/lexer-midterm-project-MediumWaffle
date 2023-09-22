@@ -2,14 +2,32 @@
 
 //how to handle classifications
 
-    bool checkComment(FILE *inFile, FILE *outFile){}
+    bool isComment(FILE *inFile, FILE *outFile, char *c){
+        if(*c == '/'){
+            char ch = fgetc(inFile);
+            if(ch == '*'){
+                fprintf(outFile, "%c%c", *c, ch);
+                *c = fgetc(inFile);
+                while(*c != '/'){ //if / then end comment
+                    fprintf(outFile, "%c", *c);
+                    *c = fgetc(inFile);
+                }
+                fprintf(outFile, "%c (comment)\n", *c);
+                return true;
+            } else {
+                //put cursor -2 then set c to / again then return false
+                fseek(inFile, -2, SEEK_CUR);
+            }
+        }
+        return false;
+    }
     //comment
         //starts with /*
         //read until ending character / is found
         //write the comment as you go
         //when finished write (comment) then newline
 
-    bool checkString(FILE *inFile, FILE *outFile){}
+    bool isString(FILE *inFile, FILE *outFile){return false;}
     //string
         //starts with "
         //read until ending character " is found
@@ -17,7 +35,7 @@
         //write the string as you go
         //when finished write (string) then newline
 
-    bool checkChar(FILE *inFile, FILE *outFile){}
+    bool isChar(FILE *inFile, FILE *outFile){return false;}
     //character literal
         //starts with a '
         //read the next single character
@@ -25,7 +43,7 @@
         //write out the character surrounded by the single quotes
         //then write out (character literal) then newline
 
-    bool checkNum(FILE *inFile, FILE *outFile){}
+    bool isNum(FILE *inFile, FILE *outFile){return false;}
     //numeric literal
         //read in character
         //if that character is between the range of 48-57 then it's a number
@@ -38,7 +56,7 @@
             //if # then read more numbers til isSpace() is found
             //afterwards print number, (numeric literal), newline
 
-    bool checkOperators(FILE *inFile, FILE *outFile){}
+    bool isOperators(FILE *inFile, FILE *outFile){return false;}
     //operator
         //read until space is found
             //build a word as you go
@@ -50,7 +68,7 @@
         //compare 'word' to 'words' in operators list
             //if a match is made, print out word, (operator), and newline
 
-    bool checkIdentifiers(FILE *inFile, FILE *outFile){}
+    bool isIdentifiers(FILE *inFile, FILE *outFile){return false;}
     //identifier
         //check if character is a letter (65-90, 97-122)
         //characters after that can be: 
@@ -60,7 +78,7 @@
                 //if digit or underscore is found, then word is an identifier
         //if the word is an identifier then write word, (identifier), newline
 
-    bool checkKeywords(FILE *inFile, FILE *outFile){}
+    bool isKeywords(FILE *inFile, FILE *outFile){return false;}
     //keyword
         //read characters until space
             //build a word as you go

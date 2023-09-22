@@ -27,6 +27,16 @@ int main(int argc, char* argv[]){
     }
     
     //check if the beginning of any files isSpace();
+    char c;
+    while((c = fgetc(inFile)) != EOF){
+        if(isComment(inFile, outFile, &c)){}
+        else if(isString(inFile, outFile)){}
+        else if(isChar(inFile, outFile)){}
+        else if(isNum(inFile, outFile)){}
+        else if(isOperators(inFile, outFile)){}
+        else if(isIdentifiers(inFile, outFile)){} //this function will call isKeywords()
+        else {setUnknown(inFile, outFile);}
+    }
     
     fclose(inFile);
     fclose(outFile);

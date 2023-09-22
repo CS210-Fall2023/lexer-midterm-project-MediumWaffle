@@ -9,13 +9,13 @@ typedef int bool;
 #define true 1
 #define false 0
 
-bool checkComment(FILE *inFile, FILE *outFile);
-bool checkString(FILE *inFile, FILE *outFile);
-bool checkChar(FILE *inFile, FILE *outFile);
-bool checkNum(FILE *inFile, FILE *outFile);
-bool checkOperators(FILE *inFile, FILE *outFile);
-bool checkIdentifiers(FILE *inFile, FILE *outFile);
-bool checkKeywords(FILE *inFile, FILE *outFile);
+bool isComment(FILE *inFile, FILE *outFile, char *c);
+bool isString(FILE *inFile, FILE *outFile);
+bool isChar(FILE *inFile, FILE *outFile);
+bool isNum(FILE *inFile, FILE *outFile);
+bool isOperators(FILE *inFile, FILE *outFile);
+bool isIdentifiers(FILE *inFile, FILE *outFile);
+bool isKeywords(FILE *inFile, FILE *outFile);
 void setUnknown(FILE *inFile, FILE *outFile);
 
 #endif
