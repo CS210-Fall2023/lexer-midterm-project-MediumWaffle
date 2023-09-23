@@ -47,7 +47,19 @@
         //write the string as you go
         //when finished write (string) then newline
 
-    bool isChar(FILE *inFile, FILE *outFile, char *c){return false;}
+    bool isChar(FILE *inFile, FILE *outFile, char *c){
+        if(*c == '\''){
+            fprintf(outFile, "%c", *c); // print first '
+            *c = fgetc(inFile);
+            while (*c != '\''){
+                fprintf(outFile, "%c", *c);
+                *c = fgetc(inFile);
+            }
+            fprintf(outFile, "%c (character literal)\n", *c); //print last '
+            return true;
+        }
+        return false;
+    }
     //character literal
         //starts with a '
         //read the next single character
