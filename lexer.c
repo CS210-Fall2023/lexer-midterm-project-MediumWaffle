@@ -67,7 +67,27 @@
         //write out the character surrounded by the single quotes
         //then write out (character literal) then newline
 
-    bool isNum(FILE *inFile, FILE *outFile, char *c){return false;}
+    bool isNum(FILE *inFile, FILE *outFile, char *c){
+        if(isdigit(*c)){
+            while(!isdigit(*c) || *c != '.' || *c != '#'){
+                //if period
+                if (*c == '.'){
+                    char ch = fgetc(inFile);
+                    if (ch == '.'){ //operator .. not decimal point
+                        //move sursor back 2, and print out the numbers
+                        fseek(inFile, -2, SEEK_CUR);
+                        fprintf(outFile, " (numeric literal)\n");
+                        return true; //exit isNum() loop and reloop for the operator ..
+                    }
+                    //if decimal then . it will print period then more digits
+                }
+                //if hashtag then it will print (no case for ##)
+                fprintf(outFile, "%c", *c);
+            }
+            return true;
+        }
+        return false;
+    }
     //numeric literal
         //read in character
         //if that character is between the range of 48-57 then it's a number
