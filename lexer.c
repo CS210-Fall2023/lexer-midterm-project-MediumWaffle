@@ -69,7 +69,7 @@
 
     bool isNum(FILE *inFile, FILE *outFile, char *c){
         if(isdigit(*c)){
-            while(!isdigit(*c) || *c != '.' || *c != '#'){
+            while(isdigit(*c) || *c == '.' || *c == '#'){
                 //if period
                 if (*c == '.'){
                     char ch = fgetc(inFile);
@@ -83,7 +83,9 @@
                 }
                 //if hashtag then it will print (no case for ##)
                 fprintf(outFile, "%c", *c);
+                *c = fgetc(inFile);
             }
+            fprintf(outFile, " (numeric literal)\n");
             return true;
         }
         return false;
