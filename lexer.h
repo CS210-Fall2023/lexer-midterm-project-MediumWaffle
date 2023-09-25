@@ -14,7 +14,7 @@ bool isComment(FILE *inFile, FILE *outFile, char *c);
 bool isString(FILE *inFile, FILE *outFile, char *c);
 bool isChar(FILE *inFile, FILE *outFile, char *c);
 bool isNum(FILE *inFile, FILE *outFile, char *c);
-bool isOperators(FILE *inFile, FILE *outFile, char *c);
+bool isOperators(FILE *inFile, FILE *outFile, char *c, const char *operators[]);
 bool isIdentifiers(FILE *inFile, FILE *outFile, char *c);
 bool isKeywords(FILE *inFile, FILE *outFile, char *c);
 void setUnknown(FILE *inFile, FILE *outFile, char *c);

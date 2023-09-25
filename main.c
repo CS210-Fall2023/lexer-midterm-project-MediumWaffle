@@ -2,9 +2,18 @@
 
 int main(int argc, char* argv[]){
 
+    if (argc == 1){
+        printf("Error, no input file was detected.\n");
+        exit(0);
+    }
+    if (argc > 2){
+        printf("Error, too many arguments. Please input only 1 file name\n");
+        exit(0);
+    }
+
     //list of all the words and symbols I am checking for
     //const char *keywords[] = {"accessor", "and", "array", "begin", "bool", "case", "character", "constant", "else", "elsif", "end", "exit", "function","if", "in", "integer", "interface", "is", "loop", "module", "mutator", "natural", "null", "of", "or", "other", "out","positive", "procedure", "range", "return", "struct", "subtype", "then", "type", "when", "while"};
-    //onst char *operators[] = {".", "<", ">", "(", ")", "+", "-", "*", "/", "|", "&", ";", ",", ":", "[", "]", "=", ":=", "..", "<<", ">>", "<>", "<=", ">=", "**", "!=", "=>"};
+    const char *operators[] = {":=", "..", "<<", ">>", "<>", "<=", ">=", "**", "!=", "=>", ".", "<", ">", "(", ")", "+", "-", "*", "/", "|", "&", ";", ",", ":", "[", "]", "="};
     
     //assuming passing the file to the lexer will only be passed 1 file at a time through 
     //the arguments of the command line, this is the code.
@@ -34,7 +43,7 @@ int main(int argc, char* argv[]){
         else if(isString(inFile, outFile, &c)){}
         else if(isChar(inFile, outFile, &c)){}
         else if(isNum(inFile, outFile, &c)){}
-        else if(isOperators(inFile, outFile, &c)){}
+        else if(isOperators(inFile, outFile, &c, operators)){}
         else if(isIdentifiers(inFile, outFile, &c)){} //this function will call isKeywords()
         else {setUnknown(inFile, outFile, &c);}
     }
