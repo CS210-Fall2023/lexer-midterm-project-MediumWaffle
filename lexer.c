@@ -111,6 +111,7 @@ bool isOperators(FILE *inFile, FILE *outFile, char *c, const char *operators[]){
         if(*c == operators[i][0]){
             if(strlen(operators[i]) == 1){
                 fprintf(outFile, "%c (operator)\n", *c);
+                fseek(inFile, -1, SEEK_CUR);
                 return true;
             } else {
                 if(ch == operators[i][1]){
@@ -131,9 +132,9 @@ bool isOperators(FILE *inFile, FILE *outFile, char *c, const char *operators[]){
  * @return @param bool 
 */
 bool isIdentifiers(FILE *inFile, FILE *outFile, char *c, const char *operators[]){
-    char *build = calloc(256, sizeof(char));
+    char *build = calloc(265, sizeof(char));
     bool isUnderscoreOrDigit = false;
-    if(!isalpha(c)){
+    if(isalpha(*c)){
         while(isalpha(*c) || *c == '_' || isdigit(*c)){
             strncat(build, c, 1);
             if(isUnderscoreOrDigit || *c == '_' || isdigit(*c)){
@@ -151,7 +152,8 @@ bool isIdentifiers(FILE *inFile, FILE *outFile, char *c, const char *operators[]
         }
         */
         //if there is an underscore or digit found, then the word is an identifier
-        fprintf(outFile, "%s (identifier)", build);
+        fprintf(outFile, "%s (identifier)\n", build);
+        free(build);
         return true;
     }
     free(build);
@@ -189,7 +191,9 @@ bool isKeywords(FILE *inFile, FILE *outFile, char *build, const char *operators[
  * @param outFile 
  * @return @param bool 
 */
-void setUnknown(FILE *inFile, FILE *outFile, char *c){}
+void setUnknown(FILE *inFile, FILE *outFile, char *c){
+    printf("set unknown\n");
+}
 //unkown
     //if no classification was given to the chosen word, then put it here
     //print out thr word, (UNK), newline
