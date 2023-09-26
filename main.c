@@ -21,7 +21,6 @@ int main(int argc, char* argv[]){
     
     char *filename = calloc((strlen(argv[1])+8), sizeof(char)); //set the file to the 1st argument (the +8 is for ".lexer\0")
     strcpy(filename, argv[1]);
-    printf("%s\n", filename);
     char *fileExtension = ".lexer";
     FILE *inFile = fopen(argv[1], "r"); //opens the file for readin, file must exist
     strcat(filename, fileExtension); //set filename to <name>.lexer

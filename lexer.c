@@ -90,6 +90,7 @@ bool isNum(FILE *inFile, FILE *outFile, char *c){
             fprintf(outFile, "%c", *c);
             *c = fgetc(inFile);
         }
+        fseek(inFile, -1, SEEK_CUR);
         fprintf(outFile, " (numeric literal)\n");
         return true;
     }
@@ -113,8 +114,7 @@ bool isIdentifiers(FILE *inFile, FILE *outFile, char *c, const char *keywords[])
             }
             *c = fgetc(inFile);
         }
-        //append null terminator
-        strncat(build, "\0", 1);
+        fseek(inFile, -1, SEEK_CUR); //always grabs 1 too many characters for check
         //if there were no underscores or digits, maybe is a keyword, check here
         if(!isUnderscoreOrDigit){
             if(isKeywords(inFile, outFile, build, keywords)){ //if word is a keyword
@@ -139,9 +139,8 @@ bool isIdentifiers(FILE *inFile, FILE *outFile, char *c, const char *keywords[])
 */
 bool isKeywords(FILE *inFile, FILE *outFile, char *build, const char *keywords[]){
     int length = 37; //length of the list of keywords
-
     for(int i=0; i<length; ++i){
-        if(strncmp(build, keywords[i], strlen(build))){
+        if(!strcmp(build, keywords[i])){
             fprintf(outFile, "%s (keyword)\n", build);
             return true;
         }
@@ -160,16 +159,16 @@ bool isOperators(FILE *inFile, FILE *outFile, char *c, const char *operators[]){
     int length = 27; //length of operators
 
     for(int i=0; i<length; ++i){
-        if(*c == operators[i][0]){
+        if(strlen(operators[i]) == 1 && *c == operators[i][0]){
+            fprintf(outFile, "%c (operator)\n", *c);
+            return true;
+        } else if (strlen(operators[i]) == 2 && *c == operators[i][0]){
             char ch = fgetc(inFile);
             if(ch == operators[i][1]){
-                char ch = fgetc(inFile);
                 fprintf(outFile, "%c%c (operator)\n", *c, ch);
                 return true;
             }
             fseek(inFile, -1,SEEK_CUR);
-            fprintf(outFile, "%c (operator)\n", *c);
-            return true;
         }
     }
     return false;
