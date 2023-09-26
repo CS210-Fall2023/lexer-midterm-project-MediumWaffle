@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/lexer",
-            "args": ["files/trie.cci"],
+            "args": ["files/natural.ccx"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

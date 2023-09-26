@@ -20,7 +20,7 @@ bool isComment(FILE *inFile, FILE *outFile, char *c){
             return true;
         } else {
             //put cursor -2 then set c to / again then return false
-            fseek(inFile, -2, SEEK_CUR);
+            fseek(inFile, -1, SEEK_CUR);
         }
     }
     return false;
@@ -100,39 +100,10 @@ bool isNum(FILE *inFile, FILE *outFile, char *c){
  * @brief 
  * @param inFile 
  * @param outFile 
- * @param operators 
  * @return @param bool 
 */
-bool isOperators(FILE *inFile, FILE *outFile, char *c, const char *operators[]){
-    char ch = fgetc(inFile);
-    int length = 27; //length of operators
-
-    for(int i=0; i<length; ++i){
-        if(*c == operators[i][0]){
-            if(strlen(operators[i]) == 1){
-                fprintf(outFile, "%c (operator)\n", *c);
-                fseek(inFile, -1, SEEK_CUR);
-                return true;
-            } else {
-                if(ch == operators[i][1]){
-                    fprintf(outFile, "%c%c (operator)\n", *c, ch);
-                    return true;
-                }
-            }
-        }
-    }
-    fseek(inFile, -1, SEEK_CUR);
-    return false;
-}
-
-/**
- * @brief 
- * @param inFile 
- * @param outFile 
- * @return @param bool 
-*/
-bool isIdentifiers(FILE *inFile, FILE *outFile, char *c, const char *operators[]){
-    char *build = calloc(265, sizeof(char));
+bool isIdentifiers(FILE *inFile, FILE *outFile, char *c, const char *keywords[]){
+    char *build = calloc(266, sizeof(char));
     bool isUnderscoreOrDigit = false;
     if(isalpha(*c)){
         while(isalpha(*c) || *c == '_' || isdigit(*c)){
@@ -142,15 +113,15 @@ bool isIdentifiers(FILE *inFile, FILE *outFile, char *c, const char *operators[]
             }
             *c = fgetc(inFile);
         }
+        //append null terminator
+        strncat(build, "\0", 1);
         //if there were no underscores or digits, maybe is a keyword, check here
-        /*
         if(!isUnderscoreOrDigit){
-            if(isKeywords(inFile, outFile, build, operators)){ //if word is a keyword
+            if(isKeywords(inFile, outFile, build, keywords)){ //if word is a keyword
                 free(build);
                 return true; //wont finish the rest of the identifier loop
             }
         }
-        */
         //if there is an underscore or digit found, then the word is an identifier
         fprintf(outFile, "%s (identifier)\n", build);
         free(build);
@@ -159,14 +130,6 @@ bool isIdentifiers(FILE *inFile, FILE *outFile, char *c, const char *operators[]
     free(build);
     return false;
 }
-//identifier
-    //check if character is a letter (65-90, 97-122)
-    //characters after that can be: 
-        //letters (65-90, 97-122), digits (48-57), or underscore (95)
-            //if they are not found, check word against keywords first
-                //if comes back as not a keyword, then its an identifier
-            //if digit or underscore is found, then word is an identifier
-    //if the word is an identifier then write word, (identifier), newline
 
 /**
  * @brief 
@@ -174,16 +137,43 @@ bool isIdentifiers(FILE *inFile, FILE *outFile, char *c, const char *operators[]
  * @param outFile 
  * @return @param bool 
 */
-bool isKeywords(FILE *inFile, FILE *outFile, char *build, const char *operators[]){
+bool isKeywords(FILE *inFile, FILE *outFile, char *build, const char *keywords[]){
+    int length = 37; //length of the list of keywords
+
+    for(int i=0; i<length; ++i){
+        if(strncmp(build, keywords[i], strlen(build))){
+            fprintf(outFile, "%s (keyword)\n", build);
+            return true;
+        }
+    }
     return false;
 }
-//keyword
-    //read characters until space
-        //build a word as you go
-    //when space is reached, word is finished building
-    //append null terminating character onto word
-    //compare word to other words in the keywords list
-        //if a match is made then write the word, (keyword), and newline
+
+/**
+ * @brief 
+ * @param inFile 
+ * @param outFile 
+ * @param operators 
+ * @return @param bool 
+*/
+bool isOperators(FILE *inFile, FILE *outFile, char *c, const char *operators[]){
+    int length = 27; //length of operators
+
+    for(int i=0; i<length; ++i){
+        if(*c == operators[i][0]){
+            char ch = fgetc(inFile);
+            if(ch == operators[i][1]){
+                char ch = fgetc(inFile);
+                fprintf(outFile, "%c%c (operator)\n", *c, ch);
+                return true;
+            }
+            fseek(inFile, -1,SEEK_CUR);
+            fprintf(outFile, "%c (operator)\n", *c);
+            return true;
+        }
+    }
+    return false;
+}
 
 /**
  * @brief 
@@ -192,18 +182,6 @@ bool isKeywords(FILE *inFile, FILE *outFile, char *build, const char *operators[
  * @return @param bool 
 */
 void setUnknown(FILE *inFile, FILE *outFile, char *c){
-    printf("set unknown\n");
+    fprintf(outFile, "%c (UNK)\n", *c);
+    printf("%c (UNK)\n", *c);
 }
-//unkown
-    //if no classification was given to the chosen word, then put it here
-    //print out thr word, (UNK), newline
-
-/*
-33-47 -   operators
-58-64 -   operators
-91-96 -   operators
-123-126 - operators
-48-57 -   numbers 0-9
-65-90 -   letters
-97-122 -  letters
-*/

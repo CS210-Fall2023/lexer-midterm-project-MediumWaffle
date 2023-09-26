@@ -12,7 +12,7 @@ int main(int argc, char* argv[]){
     }
 
     //list of all the words and symbols I am checking for
-    //const char *keywords[] = {"accessor", "and", "array", "begin", "bool", "case", "character", "constant", "else", "elsif", "end", "exit", "function","if", "in", "integer", "interface", "is", "loop", "module", "mutator", "natural", "null", "of", "or", "other", "out","positive", "procedure", "range", "return", "struct", "subtype", "then", "type", "when", "while"};
+    const char *keywords[] = {"accessor", "and", "array", "begin", "bool", "case", "character", "constant", "else", "elsif", "end", "exit", "function","if", "in", "integer", "interface", "is", "loop", "module", "mutator", "natural", "null", "of", "or", "other", "out","positive", "procedure", "range", "return", "struct", "subtype", "then", "type", "when", "while"};
     const char *operators[] = {":=", "..", "<<", ">>", "<>", "<=", ">=", "**", "!=", "=>", ".", "<", ">", "(", ")", "+", "-", "*", "/", "|", "&", ";", ",", ":", "[", "]", "="};
     
     //assuming passing the file to the lexer will only be passed 1 file at a time through 
@@ -21,6 +21,7 @@ int main(int argc, char* argv[]){
     
     char *filename = calloc((strlen(argv[1])+8), sizeof(char)); //set the file to the 1st argument (the +8 is for ".lexer\0")
     strcpy(filename, argv[1]);
+    printf("%s\n", filename);
     char *fileExtension = ".lexer";
     FILE *inFile = fopen(argv[1], "r"); //opens the file for readin, file must exist
     strcat(filename, fileExtension); //set filename to <name>.lexer
@@ -43,8 +44,8 @@ int main(int argc, char* argv[]){
         else if(isString(inFile, outFile, &c)){}
         else if(isChar(inFile, outFile, &c)){}
         else if(isNum(inFile, outFile, &c)){}
+        else if(isIdentifiers(inFile, outFile, &c, keywords)){} //this function will call isKeywords()
         else if(isOperators(inFile, outFile, &c, operators)){}
-        else if(isIdentifiers(inFile, outFile, &c, operators)){} //this function will call isKeywords()
         else {setUnknown(inFile, outFile, &c);}
     }
     
