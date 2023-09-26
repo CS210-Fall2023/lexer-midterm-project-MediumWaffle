@@ -44,7 +44,7 @@ int main(int argc, char* argv[]){
         else if(isChar(inFile, outFile, &c)){}
         else if(isNum(inFile, outFile, &c)){}
         else if(isOperators(inFile, outFile, &c, operators)){}
-        else if(isIdentifiers(inFile, outFile, &c)){} //this function will call isKeywords()
+        else if(isIdentifiers(inFile, outFile, &c, operators)){} //this function will call isKeywords()
         else {setUnknown(inFile, outFile, &c);}
     }
     

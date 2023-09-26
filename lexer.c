@@ -123,16 +123,6 @@ bool isOperators(FILE *inFile, FILE *outFile, char *c, const char *operators[]){
     fseek(inFile, -1, SEEK_CUR);
     return false;
 }
-//operator
-    //read until space is found
-        //build a word as you go
-    //when space is reached the word is finished building
-    //append a null terminating character onto the word
-    //check size of word
-        //if 1 then check for operators[0-16]
-        //if 2 then check for operators[17-26]
-    //compare 'word' to 'words' in operators list
-        //if a match is made, print out word, (operator), and newline
 
 /**
  * @brief 
@@ -140,7 +130,33 @@ bool isOperators(FILE *inFile, FILE *outFile, char *c, const char *operators[]){
  * @param outFile 
  * @return @param bool 
 */
-bool isIdentifiers(FILE *inFile, FILE *outFile, char *c){return false;}
+bool isIdentifiers(FILE *inFile, FILE *outFile, char *c, const char *operators[]){
+    char *build = calloc(256, sizeof(char));
+    bool isUnderscoreOrDigit = false;
+    if(!isalpha(c)){
+        while(isalpha(*c) || *c == '_' || isdigit(*c)){
+            strncat(build, c, 1);
+            if(isUnderscoreOrDigit || *c == '_' || isdigit(*c)){
+                isUnderscoreOrDigit = true;
+            }
+            *c = fgetc(inFile);
+        }
+        //if there were no underscores or digits, maybe is a keyword, check here
+        /*
+        if(!isUnderscoreOrDigit){
+            if(isKeywords(inFile, outFile, build, operators)){ //if word is a keyword
+                free(build);
+                return true; //wont finish the rest of the identifier loop
+            }
+        }
+        */
+        //if there is an underscore or digit found, then the word is an identifier
+        fprintf(outFile, "%s (identifier)", build);
+        return true;
+    }
+    free(build);
+    return false;
+}
 //identifier
     //check if character is a letter (65-90, 97-122)
     //characters after that can be: 
@@ -156,7 +172,9 @@ bool isIdentifiers(FILE *inFile, FILE *outFile, char *c){return false;}
  * @param outFile 
  * @return @param bool 
 */
-bool isKeywords(FILE *inFile, FILE *outFile, char *c){return false;}
+bool isKeywords(FILE *inFile, FILE *outFile, char *build, const char *operators[]){
+    return false;
+}
 //keyword
     //read characters until space
         //build a word as you go
