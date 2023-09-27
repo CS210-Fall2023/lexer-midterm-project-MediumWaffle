@@ -1,3 +1,23 @@
+/**
+ * @name Aaron Jarnes
+ * @date 9/27/23
+ * @brief This program is designed to be a lexical analyzer. 
+ *        Reading from other files and breaking apart each character, 
+ *        each word, into a list of 8 classifications. 
+    *        1. Comment (/* HELLO WORLD * /)
+    *        2. String ("HELLO WORLD")
+    *        3. Character Literal ('H')
+    *        4. Numeric Literal (60 or 52.3 or 32#54#)
+    *        5. Identifiers (hello_world)
+    *        6. Operators (+=;)
+    *        7. Keywords (const int)
+    *        8. Unknown (used to classify any errors the program caught)
+ *        Afterwards the program will write the output to a new file labeled as the <filename>.lexer
+ *        The output file holds the lexical analasys of the input file
+ * @param argc To check the argument count. If the count is too low or too high, 
+ *             the correct files may not have been inputted and an error will occur. 
+ * @param argv Holds the command line arguments. Used to open the input file and create an output file
+*/
 #include "lexer.h"
 
 int main(int argc, char* argv[]){
@@ -14,9 +34,6 @@ int main(int argc, char* argv[]){
     //list of all the words and symbols I am checking for
     const char *keywords[] = {"accessor", "and", "array", "begin", "bool", "case", "character", "constant", "else", "elsif", "end", "exit", "function","if", "in", "integer", "interface", "is", "loop", "module", "mutator", "natural", "null", "of", "or", "other", "out","positive", "procedure", "range", "return", "struct", "subtype", "then", "type", "when", "while"};
     const char *operators[] = {":=", "..", "<<", ">>", "<>", "<=", ">=", "**", "!=", "=>", ".", "<", ">", "(", ")", "+", "-", "*", "/", "|", "&", ";", ",", ":", "[", "]", "="};
-    
-    //assuming passing the file to the lexer will only be passed 1 file at a time through 
-    //the arguments of the command line, this is the code.
 
     
     char *filename = calloc((strlen(argv[1])+8), sizeof(char)); //set the file to the 1st argument (the +8 is for ".lexer\0")
@@ -35,7 +52,7 @@ int main(int argc, char* argv[]){
         exit(0);
     }
     
-    //check if the beginning of any files isSpace();
+    //Main loop. Grap characters, check them with specific functions. 
     char c;
     while((c = fgetc(inFile)) != EOF){
         if(isspace(c)){} //if any whitespace is detected, then loop for next char instead
@@ -48,25 +65,9 @@ int main(int argc, char* argv[]){
         else {setUnknown(inFile, outFile, &c);}
     }
     
+    //when done, close files and free memory
     fclose(inFile);
     fclose(outFile);
-    free(filename); //deallocate memory
+    free(filename);
     return 0;
 }
-
-
-
-//read a character, and check it between operators
-    //if no match for an operator, then reset reading position and read again. 
-    //if the size of the operator is more than 1, read more than 1 character
-        //if match is made, jump into function made for handling that operator
-            //write result to <name>.lexer
-
-//if no match for operators, read characters
-    //if match is made, then jump into function to handle it
-        //classify it as 1 of the 8 categories
-            //write result to <name>.lexer
-
-//if no match is made for operators or keywords, then label UNKOWN
-    //write the string from start til isSpace()
-    //write UNK category

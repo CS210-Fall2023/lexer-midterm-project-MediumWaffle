@@ -1,3 +1,9 @@
+/**
+ * @name Aaron Jarnes
+ * @date 9/27/23
+ * @brief This is the header file where function headers are stored, 
+ *        libraries are included, and the type boolean is defined to return true or false. 
+*/
 #ifndef LEXER_H
 #define LEXER_H
 

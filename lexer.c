@@ -1,10 +1,24 @@
+/**
+ * @name Aaron Jarnes
+ * @date 9/27/23
+ * @brief This is the function file. It holds all the function my program uses to 
+ *        lexically analyze the input file. Most of these programs use the input file, 
+ *        output file, and a character grabbed from the input to check from. 
+ *        If a check is made successful, the function will return true and the output is 
+ *        written to the output file.  
+*/
 #include "lexer.h"
 
 /**
- * @brief 
- * @param inFile 
- * @param outFile 
- * @return @param bool 
+ * @brief Takes the input char C and checks it for '/' if so, 
+ *        grab another character then check if it's '*', 
+ *        if not its just the operator /, 
+ *        if it had /* then read until you get the ending character /. 
+ *        Afterwards post the comment and print (comment)
+ * @param inFile File in which the program reads from to analyze lexically
+ * @param outFile File in which the program writes the analasys to.
+ * @param c character grabbed from the input file to check from
+ * @return @param bool typedefined to return true or false if the check was sucessful or not
 */
 bool isComment(FILE *inFile, FILE *outFile, char *c){
     if(*c == '/'){
@@ -27,10 +41,12 @@ bool isComment(FILE *inFile, FILE *outFile, char *c){
 }
 
 /**
- * @brief 
- * @param inFile 
- * @param outFile 
- * @return @param bool 
+ * @brief check the input file for the " symbol, if so then read until you find the ending symbol ", 
+ *        afterwards output the string literal to the outputfile and print (string)
+ * @param inFile File in which the program reads from to analyze lexically
+ * @param outFile File in which the program writes the analasys to.
+ * @param c character grabbed from the input file to check from
+ * @return @param bool typedefined to return true or false if the check was sucessful or not
 */
 bool isString(FILE *inFile, FILE *outFile, char *c){
     if(*c == '"'){
@@ -47,10 +63,13 @@ bool isString(FILE *inFile, FILE *outFile, char *c){
 }
 
 /**
- * @brief 
- * @param inFile 
- * @param outFile 
- * @return @param bool 
+ * @brief Checks the input character for the symbol ', 
+ *        if found then the next letter is a character literal. 
+ *        Just read it and the ending ' afterwards print (character literal) to the screen
+ * @param inFile File in which the program reads from to analyze lexically
+ * @param outFile File in which the program writes the analasys to.
+ * @param c character grabbed from the input file to check from
+ * @return @param bool typedefined to return true or false if the check was sucessful or not
 */
 bool isChar(FILE *inFile, FILE *outFile, char *c){
     if(*c == '\''){
@@ -67,10 +86,14 @@ bool isChar(FILE *inFile, FILE *outFile, char *c){
 }
 
 /**
- * @brief 
- * @param inFile 
- * @param outFile 
- * @return @param bool 
+ * @brief checks the first character read for a digit by using the isdigit() funcion. 
+ *        If the character is a digit, keep reading and writing characters that are either digits, 
+ *        periods, or pound symbols. If it is a period, then the check to see if its supposed to be a 
+ *        decimal number or the .. operator. Afterwards print (numeric literal).
+ * @param inFile File in which the program reads from to analyze lexically
+ * @param outFile File in which the program writes the analasys to.
+ * @param c character grabbed from the input file to check from
+ * @return @param bool typedefined to return true or false if the check was sucessful or not
 */
 bool isNum(FILE *inFile, FILE *outFile, char *c){
     if(isdigit(*c)){
@@ -98,10 +121,16 @@ bool isNum(FILE *inFile, FILE *outFile, char *c){
 }
 
 /**
- * @brief 
- * @param inFile 
- * @param outFile 
- * @return @param bool 
+ * @brief checks if the first character is a letter by ising isalpha(). 
+ *        Afterwards then check letters after it for alpha, underscore, or digits. 
+ *        When finished, if there were no underscores or digits in the word, 
+ *        the word could be a keyword and it will call the isKeyword() function. 
+ *        If not then it is an identifier and print out (identifier).
+ * @param inFile File in which the program reads from to analyze lexically
+ * @param outFile File in which the program writes the analasys to.
+ * @param c character grabbed from the input file to check from
+ * @param keywords list of keywords to check against, if match is made, then the word is a keyword
+ * @return @param bool typedefined to return true or false if the check was sucessful or not
 */
 bool isIdentifiers(FILE *inFile, FILE *outFile, char *c, const char *keywords[]){
     char *build = calloc(266, sizeof(char));
@@ -132,10 +161,14 @@ bool isIdentifiers(FILE *inFile, FILE *outFile, char *c, const char *keywords[])
 }
 
 /**
- * @brief 
- * @param inFile 
- * @param outFile 
- * @return @param bool 
+ * @brief checks the word build from the isIdentifier() function. 
+ *        If the word matches with any of the list of keywords, then the word is a keyword, 
+ *        print it to output file and print (keyword).
+ * @param inFile File in which the program reads from to analyze lexically
+ * @param outFile File in which the program writes the analasys to.
+ * @param c character grabbed from the input file to check from
+ * @param keywords list of keywords to check against, if match is made, then the word is a keyword
+ * @return @param bool typedefined to return true or false if the check was sucessful or not
 */
 bool isKeywords(FILE *inFile, FILE *outFile, char *build, const char *keywords[]){
     int length = 37; //length of the list of keywords
@@ -149,11 +182,15 @@ bool isKeywords(FILE *inFile, FILE *outFile, char *build, const char *keywords[]
 }
 
 /**
- * @brief 
- * @param inFile 
- * @param outFile 
+ * @brief Checks the character read if it matches with the first character in the operator list. 
+ *        Loop through operator list until a match is made. Check to see if the operator has a size of 2, 
+ *        if so then read a character again and check it from the second character in the operator list. 
+ *        Keep looping. If operator is found then print it to output file and print (operator)
+ * @param inFile File in which the program reads from to analyze lexically
+ * @param outFile File in which the program writes the analasys to.
+ * @param c character grabbed from the input file to check from
  * @param operators 
- * @return @param bool 
+ * @return @param bool typedefined to return true or false if the check was sucessful or not
 */
 bool isOperators(FILE *inFile, FILE *outFile, char *c, const char *operators[]){
     int length = 27; //length of operators
@@ -175,10 +212,12 @@ bool isOperators(FILE *inFile, FILE *outFile, char *c, const char *operators[]){
 }
 
 /**
- * @brief 
- * @param inFile 
- * @param outFile 
- * @return @param bool 
+ * @brief If the function cannot find the correct placement for a character read from a file, 
+ *        it will mark it as UNK meaning unknown and the program will loop for the next character. 
+ *        (this function should never run unless an issue is happening)
+ * @param inFile File in which the program reads from to analyze lexically
+ * @param outFile File in which the program writes the analasys to.
+ * @return @param bool typedefined to return true or false if the check was sucessful or not
 */
 void setUnknown(FILE *inFile, FILE *outFile, char *c){
     fprintf(outFile, "%c (UNK)\n", *c);
